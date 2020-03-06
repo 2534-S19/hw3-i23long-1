@@ -8,17 +8,29 @@
 
 #ifndef MYGPIO_H_
 #define MYGPIO_H_
+#define L_B BIT1    // define bits for buttons and LEDs
+#define R_B BIT4
+#define T_B BIT5
+#define B_B BIT1
+
+#define L_L BIT0
+#define R_L BIT0
+#define G_L BIT1
+#define B_L BIT2
+#define R_BL BIT6
+#define G_BL BIT4
+#define B_BL BIT6
 
 // This function initializes the peripherals used in the program.
 void initGPIO();
 // This function returns the value of Launchpad S1.
-unsigned char checkStatus_LaunchpadS1();
+bool checkStatus_LaunchpadS1();
 // This function returns the value of Launchpad S2.
-unsigned char checkStatus_LaunchpadS2();
+bool checkStatus_LaunchpadS2();
 // This function returns the value of Boosterpack S1.
-unsigned char checkStatus_BoosterpackS1();
+bool checkStatus_BoosterpackS1();
 // This function returns the value of Boosterpack S2.
-unsigned char checkStatus_BoosterpackS2();
+bool checkStatus_BoosterpackS2();
 // This function turns on Launchpad LED1.
 void turnOn_LaunchpadLED1();
 // This function turns off Launchpad LED1.

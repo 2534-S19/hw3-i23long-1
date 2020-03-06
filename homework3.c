@@ -10,8 +10,8 @@ int main(void)
     unsigned int count1 = 0;
 
     // TODO: Declare the variables that main uses to interact with your state machine.
-
-
+    unsigned int hist=0;
+    bool buttonstatus,pressed;
     // Stops the Watchdog timer.
     initBoard();
     // Initialize the GPIO.
@@ -35,21 +35,39 @@ int main(void)
 
         // TODO: If Timer0 has expired, increment count0.
         // YOU MUST WRITE timer0expired IN myTimer.c
-
+        if (timer0Expired())
+        {
+            count0++;
+            if(count0>7)
+                count0=0;
+        }
 
 
         // TODO: If Timer1 has expired, update the button history from the pushbutton value.
         // YOU MUST WRITE timer1expired IN myTimer.c
-
+        if (timer1Expired())
+        {
+            buttonstatus=checkStatus_BoosterpackS1();
+            if (hist==0 && buttonstatus)
+                hist=2;
+            if (hist==1 && !buttonstatus)
+                hist=0;
+        }
 
 
         // TODO: Call the button state machine function to check for a completed, debounced button press.
         // YOU MUST WRITE THIS FUNCTION BELOW.
-
+        pressed=fsmBoosterpackButtonS1(hist);
 
 
         // TODO: If a completed, debounced button press has occurred, increment count1.
-
+        if(pressed)
+        {
+            count1++;
+            hist=1;
+            if(count1>7)
+                count1=0;
+        }
 
 
     }
@@ -64,14 +82,79 @@ void initBoard()
 // Since count is an unsigned integer, you can mask the value in some way.
 void changeLaunchpadLED2(unsigned int count)
 {
-
+    switch(count)
+    {
+    case 0:
+        turnOff_LaunchpadLED2Red();
+        turnOff_LaunchpadLED2Green();
+        turnOff_LaunchpadLED2Blue();
+        break;
+    case 1:
+        turnOn_LaunchpadLED2Red();
+        break;
+    case 2:
+        turnOff_LaunchpadLED2Red();
+        turnOn_LaunchpadLED2Green();
+        break;
+    case 3:
+        turnOn_LaunchpadLED2Red();
+        break;
+    case 4:
+        turnOff_LaunchpadLED2Red();
+        turnOff_LaunchpadLED2Green();
+        turnOn_LaunchpadLED2Blue();
+        break;
+    case 5:
+        turnOn_LaunchpadLED2Red();
+        break;
+    case 6:
+        turnOff_LaunchpadLED2Red();
+        turnOn_LaunchpadLED2Green();
+        break;
+    case 7:
+        turnOn_LaunchpadLED2Red();
+        break;
+    }
 }
 
 // TODO: Maybe the value of a count variable to a color for the Boosterpack LED
 // This is essentially a copy of the previous function, using a different LED
 void changeBoosterpackLED(unsigned int count)
 {
+    switch(count)
+    {
+    case 0:
+        turnOff_BoosterpackLEDRed();
+        turnOff_BoosterpackLEDGreen();
+        turnOff_BoosterpackLEDBlue();
+        break;
+    case 1:
+        turnOn_BoosterpackLEDRed();
+        break;
+    case 2:
+        turnOff_BoosterpackLEDRed();
+        turnOn_BoosterpackLEDGreen();
+        break;
+    case 3:
+        turnOn_BoosterpackLEDRed();
+        break;
+    case 4:
+        turnOff_BoosterpackLEDRed();
+        turnOff_BoosterpackLEDGreen();
+        turnOn_BoosterpackLEDBlue();
+        break;
+    case 5:
+        turnOn_BoosterpackLEDRed();
+        break;
+    case 6:
+        turnOff_BoosterpackLEDRed();
+        turnOn_BoosterpackLEDGreen();
+        break;
+    case 7:
+        turnOn_BoosterpackLEDRed();
 
+        break;
+    }
 }
 
 // TODO: Create a button state machine.
@@ -79,7 +162,10 @@ void changeBoosterpackLED(unsigned int count)
 bool fsmBoosterpackButtonS1(unsigned int buttonhistory)
 {
     bool pressed = false;
-
+    if (buttonhistory==2)
+    {
+        pressed=true;
+    }
 
     return pressed;
 }
